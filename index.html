@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ Arxiu Municipal de Grècia Antiga</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'EB Garamond', Georgia, serif;
+            background: linear-gradient(180deg, #2c1810 0%, #1a0f0a 100%);
+            min-height: 100vh;
+            color: #d4c4a8;
+        }
+
+        /* CAPÇALERA */
+        .header {
+            background: linear-gradient(180deg, #3d2817 0%, #2c1810 100%);
+            border-bottom: 4px solid #8b6914;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5em;
+            color: #d4a84b;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            color: #a89070;
+            font-style: italic;
+        }
+
+        .header .seal {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #8b1a1a 0%, #5c1010 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        /* CONTINGUT PRINCIPAL */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .intro-box {
+            background: linear-gradient(145deg, #3d2817, #2c1810);
+            border: 2px solid #5c4020;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .intro-box p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #c4b48a;
+        }
+
+        /* CALAIXOS */
+        .drawers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .drawer {
+            background: linear-gradient(180deg, #4a3525 0%, #3d2817 100%);
+            border: 3px solid #6b4d2d;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+
+        .drawer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border-color: #8b6914;
+        }
+
+        .drawer.active {
+            border-color: #d4a84b;
+            box-shadow: 0 0 20px rgba(212,168,75,0.3);
+        }
+
+        .drawer-handle {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #5c4020;
+            background: linear-gradient(180deg, #5c4020 0%, #4a3525 100%);
+        }
+
+        .drawer-handle .icon {
+            font-size: 2.5em;
+            margin-bottom: 8px;
+        }
+
+        .drawer-handle h3 {
+            font-family: 'Cinzel', serif;
+            color: #d4a84b;
+            font-size: 1em;
+            letter-spacing: 2px;
+        }
+
+        .drawer-handle .count {
+            font-size: 0.8em;
+            color: #8a7a60;
+            margin-top: 5px;
+        }
+
+        /* ÀREA DE DOCUMENTS */
+        .documents-area {
+            background: linear-gradient(145deg, #1a0f0a, #0d0705);
+            border: 3px solid #3d2817;
+            border-radius: 10px;
+            min-height: 400px;
+            padding: 25px;
+            display: none;
+        }
+
+        .documents-area.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .documents-area h2 {
+            font-family: 'Cinzel', serif;
+            color: #d4a84b;
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3d2817;
+        }
+
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* DOCUMENT INDIVIDUAL */
+        .document {
+            background: linear-gradient(145deg, #f4e4c1, #e8d4a8);
+            border-radius: 5px;
+            padding: 20px;
+            color: #2c1810;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .document:hover {
+            transform: translateY(-5px) rotate(1deg);
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.4);
+        }
+
+        .document .doc-code {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #8b6914;
+            color: #f4e4c1;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+
+        .document .doc-type {
+            font-size: 0.8em;
+            color: #8b6914;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .document h4 {
+            font-family: 'Cinzel', serif;
+            color: #3d2817;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .document .preview {
+            font-size: 0.9em;
+            color: #5c4020;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .document .tags {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .document .tag {
+            background: #d4a84b;
+            color: #2c1810;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #f4e4c1, #e8d4a8);
+            max-width: 700px;
+            width: 100%;
+            border-radius: 10px;
+            position: relative;
+            margin: 20px auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #8b1a1a;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: #a82020;
+        }
+
+        .modal-header {
+            background: linear-gradient(145deg, #3d2817, #2c1810);
+            padding: 25px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+
+        .modal-header .seal-small {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .modal-header .doc-type-full {
+            color: #8b6914;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85em;
+        }
+
+        .modal-header h2 {
+            font-family: 'Cinzel', serif;
+            color: #d4a84b;
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+
+        .modal-header .doc-ref {
+            color: #a89070;
+            font-size: 0.9em;
+        }
+
+        .modal-body {
+            padding: 30px;
+            color: #2c1810;
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+        }
+
+        .modal-body .highlight {
+            background: #ffeaa7;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .modal-body .signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 20px;
+            color: #5c4020;
+        }
+
+        .modal-body .date {
+            text-align: right;
+            font-size: 0.9em;
+            color: #8b6914;
+        }
+
+        .modal-body blockquote {
+            background: rgba(0,0,0,0.05);
+            border-left: 4px solid #8b6914;
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .modal-body .official-stamp {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #c4a060;
+        }
+
+        .modal-body .stamp-text {
+            color: #8b1a1a;
+            font-weight: bold;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6b5040;
+            font-size: 0.9em;
+            border-top: 2px solid #3d2817;
+            margin-top: 30px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .drawers {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .header .seal {
+                display: none;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1>🏛️ ARXIU MUNICIPAL DE GRÈCIA ANTIGA</h1>
+    <p class="subtitle">Fons Documental · Registres Oficials · Documents Històrics</p>
+    <div class="seal">🏛️</div>
+</header>
+
+<main class="main">
+    <div class="intro-box">
+        <p>Benvinguts a l'Arxiu Municipal. Aquí trobareu registres oficials, testimonis, correspondència i documents històrics de l'antiga Grècia. Seleccioneu un calaix per explorar els documents disponibles.</p>
+    </div>
+
+    <div class="drawers">
+        <div class="drawer" onclick="openDrawer('registres')">
+            <div class="drawer-handle">
+                <div class="icon">📜</div>
+                <h3>REGISTRES OFICIALS</h3>
+                <div class="count">5 documents</div>
+            </div>
+        </div>
+        <div class="drawer" onclick="openDrawer('biografies')">
+            <div class="drawer-handle">
+                <div class="icon">👤</div>
+                <h3>BIOGRAFIES</h3>
+                <div class="count">5 documents</div>
+            </div>
+        </div>
+        <div class="drawer" onclick="openDrawer('noticies')">
+            <div class="drawer-handle">
+                <div class="icon">📰</div>
+                <h3>NOTÍCIES</h3>
+                <div class="count">6 documents</div>
+            </div>
+        </div>
+        <div class="drawer" onclick="openDrawer('declaracions')">
+            <div class="drawer-handle">
+                <div class="icon">🗣️</div>
+                <h3>DECLARACIONS</h3>
+                <div class="count">6 documents</div>
+            </div>
+        </div>
+        <div class="drawer" onclick="openDrawer('correspondencia')">
+            <div class="drawer-handle">
+                <div class="icon">💌</div>
+                <h3>CORRESPONDÈNCIA</h3>
+                <div class="count">6 documents</div>
+            </div>
+        </div>
+        <div class="drawer" onclick="openDrawer('proclames')">
+            <div class="drawer-handle">
+                <div class="icon">🏆</div>
+                <h3>PROCLAMES OFICIALS</h3>
+                <div class="count">5 documents</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REGISTRES OFICIALS -->
+    <div id="registres" class="documents-area">
+        <h2>📜 REGISTRES OFICIALS</h2>
+        <div class="documents-grid">
+            <div class="document" onclick="openDoc('reg1')">
+                <span class="doc-code">R-001</span>
+                <div class="doc-type">Partida de defunció</div>
+                <h4>Defunció de Medusa de Líbia</h4>
+                <p class="preview">"Causa de la mort: decapitació per espasa. Executor: Perseu d'Argos..."</p>
+                <div class="tags"><span class="tag">MEDUSA</span><span class="tag">PERSEU</span></div>
+            </div>
+            <div class="document" onclick="openDoc('reg2')">
+                <span class="doc-code">R-002</span>
+                <div class="doc-type">Partida de naixement</div>
+                <h4>Naixement d'Astèrion (dit "Minotaure")</h4>
+                <p class="preview">"Fill de la reina Pasífae de Creta. Pare: desconegut (diví)..."</p>
+                <div class="tags"><span class="tag">MINOTAURE</span><span class="tag">CRETA</span></div>
+            </div>
+            <div class="document" onclick="openDoc('reg3')">
+                <span class="doc-code">R-003</span>
+                <div class="doc-type">Ordre reial</div>
+                <h4>Ordre de construcció del Laberint</h4>
+                <p class="preview">"El rei Minos ordena a Dèdal construir una presó per a la criatura..."</p>
+                <div class="tags"><span class="tag">MINOTAURE</span><span class="tag">MINOS</span></div>
+            </div>
+            <div class="document" onclick="openDoc('reg4')">
+                <span class="doc-code">R-004</span>
+                <div class="doc-type">Registre matrimonial</div>
+                <h4>Matrimoni d'Odisseu i Penèlope</h4>
+                <p class="preview">"Units en sagrat matrimoni al palau d'Ítaca. Testimonis: Icari, pare de la núvia..."</p>
+                <div class="tags"><span class="tag">PENÈLOPE</span><span class="tag">ODISSEU</span></div>
+            </div>
+            <div class="document" onclick="openDoc('reg5')">
+                <span class="doc-code">R-005</span>
+                <div class="doc-type">Fitxa de captiva</div>
+                <h4>Registre de Cassandra de Troia</h4>
+                <p class="preview">"Captiva de guerra assignada a Agamèmnon. Coneguda com 'la boja de Troia'..."</p>
+                <div class="tags"><span class="tag">CASSANDRA</span><span class="tag">TROIA</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BIOGRAFIES -->
+    <div id="biografies" class="documents-area">
+        <h2>👤 BIOGRAFIES</h2>
+        <div class="documents-grid">
+            <div class="document" onclick="openDoc('bio1')">
+                <span class="doc-code">B-001</span>
+                <div class="doc-type">Fitxa biogràfica</div>
+                <h4>Medusa de Líbia</h4>
+                <p class="preview">"Abans de la seva transformació, Medusa era coneguda com la dona més bella de tota Líbia..."</p>
+                <div class="tags"><span class="tag">MEDUSA</span></div>
+            </div>
+            <div class="document" onclick="openDoc('bio2')">
+                <span class="doc-code">B-002</span>
+                <div class="doc-type">Fitxa biogràfica</div>
+                <h4>Astèrion de Creta (Minotaure)</h4>
+                <p class="preview">"Nom real: Astèrion ('estrellat'). Mai va rebre educació ni contacte humà..."</p>
+                <div class="tags"><span class="tag">MINOTAURE</span></div>
+            </div>
+            <div class="document" onclick="openDoc('bio3')">
+                <span class="doc-code">B-003</span>
+                <div class="doc-type">Fitxa biogràfica</div>
+                <h4>Ariadna de Creta</h4>
+                <p class="preview">"Filla del rei Minos. Princesa intel·ligent, coneixedora dels secrets del palau..."</p>
+                <div class="tags"><span class="tag">ARIADNA</span><span class="tag">CRETA</span></div>
+            </div>
+            <div class="document" onclick="openDoc('bio4')">
+                <span class="doc-code">B-004</span>
+                <div class="doc-type">Fitxa biogràfica</div>
+                <h4>Penèlope d'Ítaca</h4>
+                <p class="preview">"Reina d'Ítaca durant l'absència del seu espòs. Governà sola durant vint anys..."</p>
+                <div class="tags"><span class="tag">PENÈLOPE</span><span class="tag">ÍTACA</span></div>
+            </div>
+            <div class="document" onclick="openDoc('bio5')">
+                <span class="doc-code">B-005</span>
+                <div class="doc-type">Fitxa biogràfica</div>
+                <h4>Cassandra de Troia</h4>
+                <p class="preview">"Princesa de Troia amb el do de la profecia. Apol·lo la va maleir perquè el va rebutjar..."</p>
+                <div class="tags"><span class="tag">CASSANDRA</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTÍCIES -->
+    <div id="noticies" class="documents-area">
+        <h2>📰 NOTÍCIES</h2>
+        <div class="documents-grid">
+            <div class="document" onclick="openDoc('not1')">
+                <span class="doc-code">N-001</span>
+                <div class="doc-type">La Veu de l'Olimp</div>
+                <h4>"L'HEROI PERSEU TORNA TRIOMFANT!"</h4>
+                <p class="preview">"El valent Perseu ha eliminat la terrible amenaça que aterria els mortals..."</p>
+                <div class="tags"><span class="tag">MEDUSA</span><span class="tag">PERSEU</span></div>
+            </div>
+            <div class="document" onclick="openDoc('not2')">
+                <span class="doc-code">N-002</span>
+                <div class="doc-type">La Veu de l'Olimp</div>
+                <h4>"TESEU ALLIBERA ATENES DEL TRIBUT DE SANG!"</h4>
+                <p class="preview">"El príncep atenenc ha acabat amb la bèstia del laberint. Creta en dol..."</p>
+                <div class="tags"><span class="tag">MINOTAURE</span><span class="tag">TESEU</span></div>
+            </div>
+            <div class="document" onclick="openDoc('not3')">
+                <span class="doc-code">N-003</span>
+                <div class="doc-type">La Veu de l'Olimp</div>
+                <h4>"EL GRAN ODISSEU TORNA A ÍTACA!"</h4>
+                <p class="preview">"Després de vint anys, l'heroi de Troia retroba la seva fidel esposa..."</p>
+                <div class="tags"><span class="tag">PENÈLOPE</span><span class="tag">ODISSEU</span></div>
+            </div>
+            <div class="document" onclick="openDoc('not4')">
+                <span class="doc-code">N-004</span>
+                <div class="doc-type">La Veu de l'Olimp</div>
+                <h4>"ESCÀNDOL AL TEMPLE: ATENA CASTIGA SACERDOTESSA"</h4>
+                <p class="preview">"La deessa de la saviesa transforma una jove en monstre per profanació del temple..."</p>
+                <div class="tags"><span class="tag">MEDUSA</span><span class="tag">ATENA</span></div>
+            </div>
+            <div class="document" onclick="openDoc('not5')">
+                <span class="doc-code">N-005</span>
+                <div class="doc-type">Crònica de Grècia</div>
+                <h4>"TROIA CAU DESPRÉS DE DEU ANYS DE SETGE!"</h4>
+                <p class="preview">"L'estratagema del cavall de fusta posa fi al conflicte. Cassandra havia advertit..."</p>
+                <div class="tags"><span class="tag">CASSANDRA</span><span class="tag">TROIA</span></div>
+            </div>
+            <div class="document" onclick="openDoc('not6')">
+                <span class="doc-code">N-006</span>
+                <div class="doc-type">Crònica de Troia</div>
+                <h4>"PARIS MARXA CAP A ESPARTA EN MISSIÓ DIPLOMÀTICA"</h4>
+                <p class="preview">"Incident durant la cerimònia: Cassandra prediu 'deu anys de guerra'..."</p>
+                <div class="tags"><span class="tag">CASSANDRA</span><span class="tag">PARIS</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DECLARACIONS -->
+    <div id="declaracions" class="documents-area">
+        <h2>🗣️ DECLARACIONS I TESTIMONIS</h2>
+        <div class="documents-grid">
+            <div class="document" onclick="openDoc('dec1')">
+                <span class="doc-code">D-001</span>
+                <div class="doc-type">Testimoni jurat</div>
+                <h4>Declaració de la sacerdotessa Clímene</h4>
+                <p class="preview">"Jo era al temple aquella nit. Vaig veure-ho tot. El déu Posidó va entrar..."</p>
+                <div class="tags"><span class="tag">MEDUSA</span><span class="tag">POSIDÓ</span></div>
+            </div>
+            <div class="document" onclick="openDoc('dec2')">
+                <span class="doc-code">D-002</span>
+                <div class="doc-type">Testimoni jurat</div>
+                <h4>Declaració del guardià del laberint</h4>
+                <p class="preview">"Cada nit sento plors des de dins. La criatura no rugeix, gemega com un nen..."</p>
+                <div class="tags"><span class="tag">MINOTAURE</span></div>
+            </div>
+            <div class="document" onclick="openDoc('dec3')">
+                <span class="doc-code">D-003</span>
+                <div class="doc-type">Entrevista</div>
+                <h4>Entrevista a Teseu, 30 anys després</h4>
+                <p class="preview">"—I d'Ariadna, què en recordeu? —[llarg silenci] Era... necessària per la missió..."</p>
+                <div class="tags"><span class="tag">ARIADNA</span><span class="tag">TESEU</span></div>
+            </div>
+            <div class="document" onclick="openDoc('dec4')">
+                <span class="doc-code">D-004</span>
+                <div class="doc-type">Testimoni jurat</div>
+                <h4>Declaració d'Euriclea, serventa de Penèlope</h4>
+                <p class="preview">"La mestressa governava Ítaca amb mà ferma. Els pretendents la menyspreaven, però ella..."</p>
+                <div class="tags"><span class="tag">PENÈLOPE</span></div>
+            </div>
+            <div class="document" onclick="openDoc('dec5')">
+                <span class="doc-code">D-005</span>
+                <div class="doc-type">Testimoni jurat</div>
+                <h4>Declaració d'Hècuba, mare de Cassandra</h4>
+                <p class="preview">"La meva filla no està boja. Mai no ho ha estat. Apol·lo es va venjar d'ella..."</p>
+                <div class="tags"><span class="tag">CASSANDRA</span></div>
+            </div>
+            <div class="document" onclick="openDoc('dec6')">
+                <span class="doc-code">D-006</span>
+                <div class="doc-type">Testimoni jurat</div>
+                <h4>Declaració d'un soldat troià (anònim)</h4>
+                <p class="preview">"Jo era a la porta la nit del cavall. Vaig sentir la princesa cridar. Va dir el meu nom..."</p>
+                <div class="tags"><span class="tag">CASSANDRA</span><span class="tag">TROIA</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CORRESPONDÈNCIA -->
+    <div id="correspondencia" class="documents-area">
+        <h2>💌 CORRESPONDÈNCIA</h2>
+        <div class="documents-grid">
+            <div class="document" onclick="openDoc('cor1')">
+                <span class="doc-code">C-001</span>
+                <div class="doc-type">Carta personal</div>
+                <h4>Carta d'Esteno i Euríale (germanes gòrgones)</h4>
+                <p class="preview">"Germana nostra estimada: Et busquem per tot arreu. Què t'han fet?..."</p>
+                <div class="tags"><span class="tag">MEDUSA</span></div>
+            </div>
+            <div class="document" onclick="openDoc('cor2')">
+                <span class="doc-code">C-002</span>
+                <div class="doc-type">Carta personal</div>
+                <h4>Carta d'Ariadna a la seva germana Fedra</h4>
+                <p class="preview">"Estimada Fedra: Avui he conegut un atenenc. És diferent dels altres. Em mira als ulls..."</p>
+                <div class="tags"><span class="tag">ARIADNA</span><span class="tag">TESEU</span></div>
+            </div>
+            <div class="document" onclick="openDoc('cor3')">
+                <span class="doc-code">C-003</span>
+                <div class="doc-type">Carta personal</div>
+                <h4>Carta de Penèlope a Odisseu (mai enviada)</h4>
+                <p class="preview">"Estimat espòs: Han passat deu anys. Diuen que ets mort. Jo no els crec, però..."</p>
+                <div class="tags"><span class="tag">PENÈLOPE</span><span class="tag">ODISSEU</span></div>
+            </div>
+            <div class="document" onclick="openDoc('cor4')">
+                <span class="doc-code">C-004</span>
+                <div class="doc-type">Fragment de diari</div>
+                <h4>Diari de Medusa (abans de la transformació)</h4>
+                <p class="preview">"Avui he tornat al temple d'Atena. La deessa és el meu consol. Aquí em sento segura..."</p>
+                <div class="tags"><span class="tag">MEDUSA</span><span class="tag">ATENA</span></div>
+            </div>
+            <div class="document" onclick="openDoc('cor5')">
+                <span class="doc-code">C-005</span>
+                <div class="doc-type">Fragment de diari</div>
+                <h4>Diari de Cassandra (fragments)</h4>
+                <p class="preview">"Avui he vist com morirà el meu germà Hèctor. M'han dit que calli, que estic histèrica..."</p>
+                <div class="tags"><span class="tag">CASSANDRA</span><span class="tag">HÈCTOR</span></div>
+            </div>
+            <div class="document" onclick="openDoc('cor6')">
+                <span class="doc-code">C-006</span>
+                <div class="doc-type">Carta personal</div>
+                <h4>Carta de Cassandra al seu germà Hèctor</h4>
+                <p class="preview">"Germà estimat: Sé que no llegiràs aquesta carta. Demà Aquil·les et matarà..."</p>
+                <div class="tags"><span class="tag">CASSANDRA</span><span class="tag">HÈCTOR</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROCLAMES -->
+    <div id="proclames" class="documents-area">
+        <h2>🏆 PROCLAMES OFICIALS</h2>
+        <div class="documents-grid">
+            <div class="document" onclick="openDoc('pro1')">
+                <span class="doc-code">P-001</span>
+                <div class="doc-type">Proclama oficial</div>
+                <h4>Discurs del rei Polidectes: Homenatge a Perseu</h4>
+                <p class="preview">"Avui celebrem el més gran dels herois! Ha portat el cap del monstre que aterria..."</p>
+                <div class="tags"><span class="tag">MEDUSA</span><span class="tag">PERSEU</span></div>
+            </div>
+            <div class="document" onclick="openDoc('pro2')">
+                <span class="doc-code">P-002</span>
+                <div class="doc-type">Proclama oficial</div>
+                <h4>Decret del rei Minos: Sobre la criatura</h4>
+                <p class="preview">"Per la seguretat del regne, la criatura nascuda de la reina serà confinada..."</p>
+                <div class="tags"><span class="tag">MINOTAURE</span><span class="tag">MINOS</span></div>
+            </div>
+            <div class="document" onclick="openDoc('pro3')">
+                <span class="doc-code">P-003</span>
+                <div class="doc-type">Proclama oficial</div>
+                <h4>Discurs d'Egeu: Celebració de la victòria de Teseu</h4>
+                <p class="preview">"El meu fill ha alliberat Atenes! Mai més enviarem els nostres joves a morir..."</p>
+                <div class="tags"><span class="tag">TESEU</span><span class="tag">MINOTAURE</span></div>
+            </div>
+            <div class="document" onclick="openDoc('pro4')">
+                <span class="doc-code">P-004</span>
+                <div class="doc-type">Proclama oficial</div>
+                <h4>Edicte dels pretendents d'Ítaca</h4>
+                <p class="preview">"La reina Penèlope ha de triar nou espòs. El tron no pot restar buit més temps..."</p>
+                <div class="tags"><span class="tag">PENÈLOPE</span></div>
+            </div>
+            <div class="document" onclick="openDoc('pro5')">
+                <span class="doc-code">P-005</span>
+                <div class="doc-type">Decret reial</div>
+                <h4>Decret del rei Príam sobre Cassandra</h4>
+                <p class="preview">"La princesa no podrà parlar en públic. Les seves prediccions són falses i alarmistes..."</p>
+                <div class="tags"><span class="tag">CASSANDRA</span><span class="tag">TROIA</span></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>🏛️ Arxiu Municipal de Grècia Antiga · Fons Documental · Tots els drets reservats a l'Olimp</p>
+    </footer>
+</main>
+
+<!-- MODAL PER DOCUMENTS COMPLETS -->
+<div id="modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <div id="modal-inner"></div>
+    </div>
+</div>
+
+<script>
+// BASE DE DADES DE DOCUMENTS COMPLETS
+const documents = {
+    // ==================== REGISTRES ====================
+    reg1: {
+        type: "Partida de defunció",
+        code: "R-001",
+        title: "Defunció de Medusa de Líbia",
+        icon: "📜",
+        content: `
+            <p><strong>Nom del difunt:</strong> Medusa, filla de Forcis i Ceto</p>
+            <p><strong>Origen:</strong> Líbia</p>
+            <p><strong>Data de la mort:</strong> Indeterminada (era mítica)</p>
+            <p><strong>Lloc:</strong> Cova a les terres més occidentals del món conegut</p>
+            <p><strong>Causa de la mort:</strong> Decapitació per espasa</p>
+            <p><strong>Executor:</strong> Perseu d'Argos, fill de Zeus i Dànae</p>
+            <blockquote>"La difunta vivia sola en una cova des de feia anys. No tenia contacte amb humans. Va ser trobada adormida quan l'executor va procedir."</blockquote>
+            <p><strong>Nota del registrador:</strong> Del coll tallat van néixer Pegàs (cavall alat) i Crisaor (gegant). <span class="highlight">Això indica que la difunta estava embarassada en el moment de la mort.</span></p>
+            <div class="official-stamp">
+                <p class="stamp-text">⚱️ REGISTRAT · ARXIU DE DEFUNCIONS ⚱️</p>
+            </div>
+        `
+    },
+    reg2: {
+        type: "Partida de naixement",
+        code: "R-002",
+        title: "Naixement d'Astèrion (dit 'Minotaure')",
+        icon: "📜",
+        content: `
+            <p><strong>Nom:</strong> Astèrion (significa "estrellat")</p>
+            <p><strong>Sobrenom popular:</strong> Minotaure ("toro de Minos")</p>
+            <p><strong>Mare:</strong> Pasífae, reina de Creta</p>
+            <p><strong>Pare legal:</strong> Minos, rei de Creta</p>
+            <p><strong>Pare biològic:</strong> Un toro blanc enviat per Posidó</p>
+            <p><strong>Lloc de naixement:</strong> Palau de Cnossos, Creta</p>
+            <blockquote>"El nadó va néixer amb cos d'humà i cap de toro. La reina el va estimar des del primer moment. El rei Minos, en canvi, el va considerar una vergonya i un càstig diví."</blockquote>
+            <p><strong>Nota:</strong> <span class="highlight">El nen mai va rebre nom oficial al registre reial. "Minotaure" és un insult, no un nom.</span></p>
+            <div class="official-stamp">
+                <p class="stamp-text">👶 REGISTRAT · ARXIU DE NAIXEMENTS DE CRETA 👶</p>
+            </div>
+        `
+    },
+    reg3: {
+        type: "Ordre reial",
+        code: "R-003", 
+        title: "Ordre de construcció del Laberint",
+        icon: "📜",
+        content: `
+            <p><strong>Per ordre del Rei Minos de Creta</strong></p>
+            <p><strong>Data:</strong> Any tercer del regnat</p>
+            <p><strong>Destinatari:</strong> Dèdal, arquitecte reial</p>
+            <blockquote>"S'ordena la construcció immediata d'una estructura de la qual sigui impossible escapar. Ha de ser subterrània, fosca i sense sortida. Servirà per confinar la criatura nascuda de la reina. Ningú ha de saber-ne la ubicació exacta. Ningú ha d'entrar-hi. La criatura hi viurà fins a la seva mort."</blockquote>
+            <p><strong>Addenda del rei:</strong> "El que hi entri, no en sortirà. Això inclou la criatura."</p>
+            <p><span class="highlight">Nota de l'arxiver: No hi ha cap registre d'educadors, metges o cuidadors assignats a la criatura.</span></p>
+            <div class="official-stamp">
+                <p class="stamp-text">👑 SEGELL REIAL DE CRETA 👑</p>
+            </div>
+        `
+    },
+    reg4: {
+        type: "Registre matrimonial",
+        code: "R-004",
+        title: "Matrimoni d'Odisseu i Penèlope",
+        icon: "📜",
+        content: `
+            <p><strong>Contraents:</strong></p>
+            <p>• Odisseu, fill de Laertes, rei d'Ítaca</p>
+            <p>• Penèlope, filla d'Icari d'Esparta</p>
+            <p><strong>Lloc:</strong> Palau d'Ítaca</p>
+            <p><strong>Testimonis:</strong> Icari (pare de la núvia), Anticlea (mare del nuvi)</p>
+            <blockquote>"Els contraents es comprometen a fidelitat mútua i a governar junts el regne d'Ítaca."</blockquote>
+            <p><strong>Nota posterior (afegida 20 anys després):</strong></p>
+            <p><span class="highlight">"L'espòs va partir a la guerra de Troia poc després del naixement del fill Telèmac. Va trigar 20 anys a tornar. Durant aquest temps, l'esposa va governar sola el regne i va rebutjar 108 pretendents."</span></p>
+            <div class="official-stamp">
+                <p class="stamp-text">💍 REGISTRAT · ARXIU MATRIMONIAL D'ÍTACA 💍</p>
+            </div>
+        `
+    },
+    reg5: {
+        type: "Fitxa de captiva",
+        code: "R-005",
+        title: "Registre de Cassandra de Troia (captiva de guerra)",
+        icon: "📜",
+        content: `
+            <p><strong>Nom:</strong> Cassandra, filla de Príam i Hècuba</p>
+            <p><strong>Títol anterior:</strong> Princesa de Troia, sacerdotessa d'Apol·lo</p>
+            <p><strong>Estat actual:</strong> Captiva de guerra</p>
+            <p><strong>Assignada a:</strong> Agamèmnon, rei de Micenes</p>
+            <p><strong>Lloc de captura:</strong> Temple d'Atena, Troia</p>
+            <blockquote>"La captiva va ser trobada abraçada a l'estàtua d'Atena durant el saqueig. Va ser arrossegada a la força. Durant el trasllat, no va parar de cridar advertències sobre el futur del rei Agamèmnon."</blockquote>
+            <p><strong>Nota del registrador:</strong> <span class="highlight">"Coneguda popularment com 'la boja de Troia'. Les seves prediccions són ignorades per protocol. El rei Agamèmnon ha ordenat que no se l'escolti."</span></p>
+            <p><strong>Nota posterior:</strong> "La captiva va morir poc després d'arribar a Micenes, tal com ella mateixa havia predit."</p>
+            <div class="official-stamp">
+                <p class="stamp-text">⚔️ REGISTRE DE CAPTIUS DE GUERRA ⚔️</p>
+            </div>
+        `
+    },
+
+    // ==================== BIOGRAFIES ====================
+    bio1: {
+        type: "Fitxa biogràfica",
+        code: "B-001",
+        title: "Medusa de Líbia",
+        icon: "👤",
+        content: `
+            <p><strong>Nom complet:</strong> Medusa, filla de Forcis i Ceto</p>
+            <p><strong>Germanes:</strong> Esteno i Euríale (les gòrgones immortals)</p>
+            <p><strong>Lloc d'origen:</strong> Líbia</p>
+            <p><strong>Condició:</strong> Única mortal de les tres germanes</p>
+            <p><strong>Abans de la transformació:</strong></p>
+            <blockquote>"Medusa era coneguda com la dona més bella de Líbia. Tenia una cabellera daurada que enlluernava tothom. Molts homes la demanaven en matrimoni, però ella havia escollit servir la deessa Atena com a sacerdotessa."</blockquote>
+            <p><strong>La transformació:</strong></p>
+            <p><span class="highlight">Després de ser agredida per Posidó al temple d'Atena, la deessa la va castigar transformant-la en monstre: cabells de serp, pell d'escates i una mirada que convertia en pedra qualsevol que la mirés.</span></p>
+            <p><strong>Vida posterior:</strong></p>
+            <p>Va viure exiliada en una cova remota, sola, fins que Perseu la va trobar i decapitar.</p>
+            <p><strong>Nota de l'arxiver:</strong> "Posidó, l'agressor, mai va rebre cap càstig."</p>
+        `
+    },
+    bio2: {
+        type: "Fitxa biogràfica",
+        code: "B-002",
+        title: "Astèrion de Creta (Minotaure)",
+        icon: "👤",
+        content: `
+            <p><strong>Nom real:</strong> Astèrion (significa "estrellat" o "el de les estrelles")</p>
+            <p><strong>Nom popular:</strong> Minotaure ("toro de Minos") — un insult, no un nom</p>
+            <p><strong>Mare:</strong> Pasífae, reina de Creta (filla del déu Sol)</p>
+            <p><strong>Germanes:</strong> Ariadna i Fedra</p>
+            <p><strong>Aparença:</strong> Cos d'home, cap de toro</p>
+            <p><strong>Infantesa:</strong></p>
+            <blockquote>"El nen va ser separat de la seva mare als pocs dies de néixer. El rei Minos el considerava una vergonya. No va rebre educació, ni afecte, ni contacte humà. Va ser tancat al laberint quan encara era molt petit."</blockquote>
+            <p><strong>Vida al laberint:</strong></p>
+            <p><span class="highlight">Va viure sol a la foscor durant anys. L'únic contacte humà eren els joves atenesos que li enviaven com a tribut. No hi ha registres que indiquin que ell demanés menjar humans — això ho va decidir el rei Minos.</span></p>
+            <p><strong>Mort:</strong> Assassinat per Teseu d'Atenes</p>
+            <p><strong>Nota de l'arxiver:</strong> "Ningú li va preguntar mai què volia. Ningú el va tractar mai com un ésser amb sentiments."</p>
+        `
+    },
+    bio3: {
+        type: "Fitxa biogràfica",
+        code: "B-003",
+        title: "Ariadna de Creta",
+        icon: "👤",
+        content: `
+            <p><strong>Nom:</strong> Ariadna, princesa de Creta</p>
+            <p><strong>Pares:</strong> Minos (rei) i Pasífae (reina)</p>
+            <p><strong>Germans:</strong> Astèrion (el Minotaure), Fedra, i altres</p>
+            <p><strong>Habilitats:</strong> Intel·ligent, astuta, coneixedora dels secrets del palau</p>
+            <p><strong>Trobada amb Teseu:</strong></p>
+            <blockquote>"Quan Teseu va arribar a Creta com a part del tribut atenès, Ariadna se'n va enamorar. Va decidir ajudar-lo a sobreviure al laberint, tot i que això significava trair el seu pare i condemnar el seu germanastre."</blockquote>
+            <p><strong>L'ajuda:</strong></p>
+            <p>Li va donar un cabdell de fil per poder trobar la sortida del laberint després de matar el Minotaure. Sense aquest fil, Teseu hauria mort perdut a la foscor.</p>
+            <p><strong>Després de la fugida:</strong></p>
+            <p><span class="highlight">Va fugir amb Teseu, abandonant la seva família i el seu regne per amor. Teseu la va deixar adormida a l'illa de Naxos i va marxar sense ella. Mai va tornar a buscar-la.</span></p>
+            <p><strong>Nota de l'arxiver:</strong> "La dona que va salvar l'heroi va ser abandonada per ell."</p>
+        `
+    },
+    bio4: {
+        type: "Fitxa biogràfica",
+        code: "B-004",
+        title: "Penèlope d'Ítaca",
+        icon: "👤",
+        content: `
+            <p><strong>Nom:</strong> Penèlope, reina d'Ítaca</p>
+            <p><strong>Origen:</strong> Esparta, filla del príncep Icari</p>
+            <p><strong>Espòs:</strong> Odisseu, rei d'Ítaca</p>
+            <p><strong>Fill:</strong> Telèmac</p>
+            <p><strong>Durant la guerra de Troia i el viatge d'Odisseu:</strong></p>
+            <blockquote>"Durant vint anys, Penèlope va governar Ítaca sola. Va criar el seu fill, va mantenir el regne en pau, va administrar les finances i va prendre totes les decisions polítiques. Tot això mentre 108 pretendents vivien al seu palau, consumint els seus recursos i pressionant-la per casar-se."</blockquote>
+            <p><strong>L'estratagema del teixit:</strong></p>
+            <p>Per guanyar temps, va dir que es casaria quan acabés de teixir un sudari per al seu sogre. <span class="highlight">De dia teixia, de nit ho desfeia. Va enganyar els pretendents durant tres anys amb aquesta astúcia.</span></p>
+            <p><strong>El retorn d'Odisseu:</strong></p>
+            <p>Quan Odisseu va tornar, ella va ser l'única que va exigir-li una prova per demostrar que realment era ell. Fins i tot després de vint anys, no es va deixar enganyar.</p>
+            <p><strong>Nota de l'arxiver:</strong> "La història la recorda com 'l'esposa fidel'. Però va ser molt més: una governant, una estratega, una supervivient."</p>
+        `
+    },
+    bio5: {
+        type: "Fitxa biogràfica",
+        code: "B-005",
+        title: "Cassandra de Troia",
+        icon: "👤",
+        content: `
+            <p><strong>Nom complet:</strong> Cassandra, filla de Príam i Hècuba</p>
+            <p><strong>Germans:</strong> Hèctor, Paris, Polixena i 47 més (Príam va tenir 50 fills)</p>
+            <p><strong>Lloc d'origen:</strong> Troia</p>
+            <p><strong>Ocupació:</strong> Princesa reial, sacerdotessa del temple d'Apol·lo</p>
+            <p><strong>Do especial:</strong> Profecia (atorgat pel déu Apol·lo)</p>
+            <blockquote>"De petita, Cassandra ja mostrava una intel·ligència extraordinària. El déu Apol·lo, impressionat per la seva bellesa i dots, li va oferir el do de veure el futur a canvi del seu amor."</blockquote>
+            <p><strong>L'incident amb Apol·lo:</strong></p>
+            <p>"Cassandra va acceptar el do de la profecia. <span class="highlight">Però quan Apol·lo va voler que ella fos la seva companya, Cassandra el va rebutjar.</span> Furiós i humiliat, el déu no podia retirar el do que ja li havia donat... però sí que podia afegir-hi una maledicció."</p>
+            <p><strong>La maledicció:</strong></p>
+            <p>"<span class="highlight">Apol·lo la va maleir perquè ningú no creuria mai les seves profecies. Cassandra veuria el futur amb claredat absoluta, però tothom pensaria que estava boja.</span>"</p>
+            <div class="official-stamp">
+                <p class="stamp-text">👤 ARXIU BIOGRÀFIC DE TROIA 👤</p>
+            </div>
+        `
+    },
+
+    // ==================== NOTÍCIES ====================
+    not1: {
+        type: "La Veu de l'Olimp",
+        code: "N-001",
+        title: "L'HEROI PERSEU TORNA TRIOMFANT!",
+        icon: "📰",
+        content: `
+            <p style="text-align: center; font-style: italic; color: #6b5040;">~ La Veu de l'Olimp · Edició Especial ~</p>
+            <p><strong>EL VALENT PERSEU HA ELIMINAT LA TERRIBLE AMENAÇA!</strong></p>
+            <p>El jove heroi Perseu, fill del gran Zeus, ha tornat victoriós de la seva missió impossible. Ha portat el cap de la terrorífica Medusa, el monstre que convertia en pedra tot aquell que la mirava.</p>
+            <blockquote>"Ha estat una gesta digna dels déus! El jove heroi va volar amb sandàlies alades, es va fer invisible amb el casc d'Hades i va tallar el cap del monstre amb una espasa divina." — Font propera a l'heroi</blockquote>
+            <p>El rei Polidectes prepara una gran celebració en honor del jove. <span class="highlight">Perseu ha promès regalar el cap de Medusa com a trofeu.</span></p>
+            <p><strong>La nostra opinió:</strong> Grècia pot dormir tranquil·la gràcies als seus herois!</p>
+            <p style="font-size: 0.9em; color: #8b6914; margin-top: 20px;"><em>Nota de l'arxiver: Aquesta notícia no menciona les circumstàncies de com Medusa va esdevenir "monstre".</em></p>
+        `
+    },
+    not2: {
+        type: "La Veu de l'Olimp",
+        code: "N-002",
+        title: "TESEU ALLIBERA ATENES DEL TRIBUT DE SANG!",
+        icon: "📰",
+        content: `
+            <p style="text-align: center; font-style: italic; color: #6b5040;">~ La Veu de l'Olimp · Edició d'Atenes ~</p>
+            <p><strong>EL PRÍNCEP ATENENC HA ACABAT AMB LA BÈSTIA DEL LABERINT!</strong></p>
+            <p>El valent Teseu, fill del rei Egeu, s'ha ofert voluntari per ser part del tribut i ha entrat al terrible laberint de Creta. Contra tot pronòstic, ha trobat el monstre i l'ha derrotat!</p>
+            <blockquote>"El Minotaure era una bèstia terrible, però res no pot aturar un heroi d'Atenes!" — Declaració oficial</blockquote>
+            <p><span class="highlight">Atenes celebra: mai més haurem d'enviar els nostres joves a morir!</span></p>
+            <p>El rei Minos de Creta ha hagut d'acceptar la derrota. La maledicció s'ha acabat!</p>
+            <p style="font-size: 0.9em; color: #8b6914; margin-top: 20px;"><em>Nota de l'arxiver: La notícia no menciona que Ariadna, filla de Minos, va ajudar Teseu. Tampoc menciona que el "monstre" tenia nom i era germanastre de les princeses.</em></p>
+        `
+    },
+    not3: {
+        type: "La Veu de l'Olimp",
+        code: "N-003",
+        title: "EL GRAN ODISSEU TORNA A ÍTACA!",
+        icon: "📰",
+        content: `
+            <p style="text-align: center; font-style: italic; color: #6b5040;">~ La Veu de l'Olimp · Edició Especial ~</p>
+            <p><strong>DESPRÉS DE VINT ANYS, L'HEROI DE TROIA RETROBA LA SEVA FIDEL ESPOSA!</strong></p>
+            <p>El llegendari Odisseu, rei d'Ítaca i heroi de la guerra de Troia, ha tornat finalment a casa seva després de dues dècades d'absència.</p>
+            <blockquote>"Ni les tempestes de Posidó, ni els monstres, ni les bruixes han pogut aturar-lo. L'amor de la seva esposa l'esperava!" — El nostre corresponsal</blockquote>
+            <p>La fidel Penèlope no ha parat mai d'esperar-lo. <span class="highlight">Quin exemple de fidelitat i paciència!</span></p>
+            <p>Odisseu ha castigat els 108 pretendents que pretenien ocupar el seu lloc. Justícia ha estat feta!</p>
+            <p style="font-size: 0.9em; color: #8b6914; margin-top: 20px;"><em>Nota de l'arxiver: La notícia presenta Penèlope com a "esposa fidel que espera", però durant aquests 20 anys ella va governar el regne sola, va criar el seu fill i va resistir l'assetjament de 108 homes. Odisseu, mentre, va tenir aventures amb diverses deesses i nimfes.</em></p>
+        `
+    },
+    not4: {
+        type: "La Veu de l'Olimp",
+        code: "N-004",
+        title: "ESCÀNDOL AL TEMPLE: ATENA CASTIGA SACERDOTESSA",
+        icon: "📰",
+        content: `
+            <p style="text-align: center; font-style: italic; color: #6b5040;">~ La Veu de l'Olimp · Secció de Religió ~</p>
+            <p><strong>LA DEESSA DE LA SAVIESA TRANSFORMA UNA JOVE EN MONSTRE!</strong></p>
+            <p>La sacerdotessa Medusa, que servia al temple d'Atena a Líbia, ha estat castigada per la deessa per haver profanat el lloc sagrat.</p>
+            <blockquote>"El temple és un lloc sagrat. Qualsevol que el profani rebrà el càstig que mereix." — Un sacerdot d'Atena</blockquote>
+            <p>Segons fonts properes al temple, <span class="highlight">Medusa hauria comès actes impurs dins el recinte sagrat.</span> La deessa Atena, furiosa, l'ha transformada en un monstre horrible amb serps per cabells.</p>
+            <p><strong>La nostra opinió:</strong> Que serveixi d'advertiment per a tothom: els déus no perdonen!</p>
+            <p style="font-size: 0.9em; color: #8b6914; margin-top: 20px;"><em>Nota de l'arxiver: La notícia omet que Medusa no va "cometre actes impurs" — va ser agredida per Posidó. La víctima va ser castigada, l'agressor no.</em></p>
+        `
+    },
+    not5: {
+        type: "Crònica de Grècia",
+        code: "N-005",
+        title: "TROIA CAU DESPRÉS DE DEU ANYS DE SETGE!",
+        icon: "📰",
+        content: `
+            <p style="text-align: center; font-style: italic; color: #6b5040;">~ Crònica de Grècia · Edició Especial · Fi de la Guerra ~</p>
+            <p><strong>L'ESTRATAGEMA DEL CAVALL DE FUSTA POSA FI AL CONFLICTE!</strong></p>
+            <p>Després d'una dècada de guerra, la ciutat de Troia ha caigut gràcies a la brillant idea d'Odisseu: un enorme cavall de fusta que amagava soldats grecs al seu interior.</p>
+            <p>Els troians, creient que es tractava d'una ofrena als déus, van introduir el cavall dins les muralles. A la nit, els soldats van sortir i van obrir les portes de la ciutat.</p>
+            <blockquote>"Ha estat la victòria més gran de la nostra generació. Els déus estaven amb nosaltres." — Agamèmnon, comandant en cap</blockquote>
+            <p class="highlight"><strong>Nota de l'editor:</strong> Segons fonts no confirmades, la princesa Cassandra havia advertit repetidament que el cavall era una trampa. "No entreu el cavall! Hi ha soldats a dins!" hauria cridat. Com sempre, ningú no la va escoltar.</p>
+            <p style="font-size: 0.9em; color: #8b6914; margin-top: 20px;"><em>Més informació a les pàgines interiors: Llista d'herois, Repartiment del botí, Destí dels captius</em></p>
+        `
+    },
+    not6: {
+        type: "Crònica de Troia",
+        code: "N-006",
+        title: "PARIS MARXA CAP A ESPARTA EN MISSIÓ DIPLOMÀTICA",
+        icon: "📰",
+        content: `
+            <p style="text-align: center; font-style: italic; color: #6b5040;">~ Crònica de Troia · Deu anys abans de la caiguda ~</p>
+            <p><strong>MISSIÓ DIPLOMÀTICA PER ENFORTIR ALIANCES</strong></p>
+            <p>El príncep Paris, fill del rei Príam, ha marxat avui cap a Esparta per establir relacions diplomàtiques amb el rei Menelau. S'espera que torni amb un tractat d'amistat.</p>
+            <blockquote>"Serà un viatge profitós per a Troia. El meu fill tornarà amb honors." — Rei Príam</blockquote>
+            <div style="background: #fff0f0; border: 1px solid #cc0000; padding: 15px; margin: 15px 0; border-radius: 5px;">
+                <p><strong>⚠️ INCIDENT DURANT LA CERIMÒNIA DE COMIAT:</strong></p>
+                <p>La princesa Cassandra va interrompre la cerimònia de comiat cridant: <span class="highlight">"No el deixeu marxar! Tornarà amb foc i destrucció! Troia cremarà per culpa seva!"</span></p>
+                <p>La princesa va haver de ser retirada pels guardes mentre continuava predint "deu anys de guerra" i "la mort de tots els nostres germans".</p>
+                <p><em>El rei Príam ha demanat disculpes als ambaixadors per l'incident i ha assegurat que la seva filla "pateix de la ment".</em></p>
+            </div>
+            <p style="font-size: 0.9em; color: #8b6914; margin-top: 20px;"><em><strong>Actualització posterior:</strong> Paris va tornar amb Helena, esposa de Menelau. La guerra va començar poc després. Totes les prediccions de Cassandra es van complir.</em></p>
+        `
+    },
+
+    // ==================== DECLARACIONS ====================
+    dec1: {
+        type: "Testimoni jurat",
+        code: "D-001",
+        title: "Declaració de la sacerdotessa Clímene",
+        icon: "🗣️",
+        content: `
+            <p><strong>Declarant:</strong> Clímene, sacerdotessa del temple d'Atena</p>
+            <p><strong>Anys de servei:</strong> 12</p>
+            <p><strong>Juro per Atena que diré la veritat:</strong></p>
+            <blockquote>"Jo era al temple aquella nit. Vaig veure-ho tot."</blockquote>
+            <p>"Medusa era la nostra companya més devota. Sempre era la primera a arribar i l'última a marxar. Aquella nit estava sola, resant."</p>
+            <p>"<span class="highlight">Llavors va arribar Posidó. El déu del mar. Va entrar al temple sagrat i... No puc dir-ho. Medusa va cridar. Va demanar ajuda. Va invocar Atena.</span>"</p>
+            <p>"Però quan la deessa va aparèixer, no va castigar Posidó. El va deixar marxar. Era el seu oncle, suposo. I va castigar Medusa. A ella. A la víctima."</p>
+            <p>"Des d'aquell dia, ningú ha tornat a parlar de què va passar realment. Però jo ho vaig veure. I no ho oblidaré mai."</p>
+            <div class="signature">— Clímene, sacerdotessa</div>
+            <div class="date">Juro que aquesta declaració és veritat.</div>
+        `
+    },
+    dec2: {
+        type: "Testimoni jurat",
+        code: "D-002",
+        title: "Declaració del guardià del laberint",
+        icon: "🗣️",
+        content: `
+            <p><strong>Declarant:</strong> Talos, guardià de l'entrada del laberint</p>
+            <p><strong>Anys de servei:</strong> 15</p>
+            <p><strong>Juro per Zeus que diré la veritat:</strong></p>
+            <blockquote>"Cada nit sento plors des de dins. La criatura no rugeix, gemega. Com un nen."</blockquote>
+            <p>"Porto quinze anys vigilant aquesta porta. Mai he vist el que hi ha dins. Però l'he sentit."</p>
+            <p>"<span class="highlight">Els primers anys, sentia crits. Crits de ràbia? No. Crits de por. De soledat. A vegades sentia el meu nom a la foscor: 'Talos? Hi ha algú?' Però tenia ordres de no respondre.</span>"</p>
+            <p>"Quan arriben els joves d'Atenes, la criatura s'agita. Però jo crec... crec que també té por. Què en sap ella de per què li envien gent?"</p>
+            <p>"El rei diu que és un monstre. Però els monstres no ploren a la nit. Els monstres no demanen que algú els parli."</p>
+            <div class="signature">— Talos, guardià</div>
+            <div class="date">Que els déus em perdonin per no haver-li parlat mai.</div>
+        `
+    },
+    dec3: {
+        type: "Entrevista",
+        code: "D-003",
+        title: "Entrevista a Teseu, 30 anys després",
+        icon: "🗣️",
+        content: `
+            <p><strong>Entrevistador:</strong> Cronista oficial d'Atenes</p>
+            <p><strong>Entrevistat:</strong> Teseu, rei d'Atenes, heroi del laberint</p>
+            <p><strong>Transcripció:</strong></p>
+            <p><em>—Majestat, sou recordat com l'heroi que va matar el Minotaure. Com ho recordeu?</em></p>
+            <p>—Va ser una lluita terrible. La bèstia era ferotge.</p>
+            <p><em>—I com vau trobar la sortida del laberint?</em></p>
+            <p>—[pausa] Tenia... un sistema.</p>
+            <p><em>—La princesa Ariadna us va ajudar, oi? Amb un fil?</em></p>
+            <p>—<span class="highlight">[llarg silenci] Sí. Em va donar un fil.</span></p>
+            <p><em>—I després, què va passar amb ella?</em></p>
+            <p>—Es va quedar a Naxos. Era... necessari.</p>
+            <p><em>—La vau abandonar dormida, oi?</em></p>
+            <p>—[s'aixeca] L'entrevista s'ha acabat.</p>
+            <div class="signature">— Fi de la transcripció</div>
+            <div class="date">Nota de l'arxiver: Teseu mai va parlar d'Ariadna en públic. Sense ella, hauria mort al laberint.</div>
+        `
+    },
+    dec4: {
+        type: "Testimoni jurat",
+        code: "D-004",
+        title: "Declaració d'Euriclea, serventa de Penèlope",
+        icon: "🗣️",
+        content: `
+            <p><strong>Declarant:</strong> Euriclea, serventa del palau d'Ítaca</p>
+            <p><strong>Anys de servei:</strong> 40 (va criar tant Odisseu com Telèmac)</p>
+            <p><strong>Juro que diré la veritat:</strong></p>
+            <blockquote>"La mestressa Penèlope és la persona més forta que conec. I ningú no ho reconeix."</blockquote>
+            <p>"Quan el senyor va marxar, ella tenia un nadó als braços i un regne per governar. Tenia vint anys."</p>
+            <p>"<span class="highlight">Durant vint anys, ha pres totes les decisions: collites, imposts, justícia, defensa. Tot. I ho ha fet millor que molts reis.</span>"</p>
+            <p>"Però el que més admiro és com ha aguantat els pretendents. 108 homes, menjant-li el menjar, bevient-li el vi, insultant-la, amenaçant-la. I ella, ni una llàgrima en públic. Ni una."</p>
+            <p>"Diuen que és 'l'esposa fidel'. Jo dic que és una governant, una estratega i una supervivent. El senyor va tenir aventures; ella va tenir responsabilitats."</p>
+            <div class="signature">— Euriclea</div>
+            <div class="date">Que els déus la protegeixin sempre.</div>
+        `
+    },
+    dec5: {
+        type: "Testimoni jurat",
+        code: "D-005",
+        title: "Declaració d'Hècuba, reina de Troia i mare de Cassandra",
+        icon: "🗣️",
+        content: `
+            <p><strong>Declarant:</strong> Hècuba, reina de Troia</p>
+            <p><strong>Relació amb el subjecte:</strong> Mare</p>
+            <p><strong>Declara sota jurament:</strong></p>
+            <blockquote>"La meva filla no està boja. Mai no ho ha estat."</blockquote>
+            <p>"Quan Cassandra era petita, ja sabia coses que no hauria de saber. Em deia quan vindrien tempestes, quan algú estava malalt abans que mostrés símptomes... Al principi pensàvem que era coincidència."</p>
+            <p>"<span class="highlight">Després va venir Apol·lo. Li va oferir el do de la profecia. La meva filla va acceptar el do, però va rebutjar el déu. I ell es va venjar de la manera més cruel possible: la va condemnar a saber la veritat i que ningú no la cregués.</span>"</p>
+            <p>"Imagineu-vos veure venir una desgràcia, advertir tothom, i que et diguin que estàs boja. Una vegada. Dues. Cent. Mil vegades. Durant anys."</p>
+            <p>"La meva filla ha vist morir els seus germans un per un. Cada mort, l'havia predit. <span class="highlight">Cada vegada, ningú no l'havia escoltat. Cada vegada, li deien que callés, que era una histèrica, que feia nosa.</span>"</p>
+            <p>"Cassandra no està boja. Cassandra és l'única que veu clar. I aquesta és la seva condemna."</p>
+            <div class="signature">— Hècuba, reina de Troia</div>
+            <div class="date">Poc abans de la caiguda de la ciutat</div>
+        `
+    },
+    dec6: {
+        type: "Testimoni jurat",
+        code: "D-006",
+        title: "Declaració d'un soldat troià (anònim)",
+        icon: "🗣️",
+        content: `
+            <p><strong>Declarant:</strong> Soldat de la guàrdia de Troia (identitat protegida)</p>
+            <p><strong>Circumstàncies:</strong> Captat com a presoner de guerra</p>
+            <p><strong>Declara sota jurament:</strong></p>
+            <blockquote>"Jo era a la porta la nit que van entrar el cavall. Vaig sentir la princesa Cassandra."</blockquote>
+            <p>"Feia hores que cridava. Des que van trobar el cavall a la platja, no havia parat. 'No l'entreu! Hi ha homes a dins! Ens mataran a tots mentre dormim!'"</p>
+            <p>"<span class="highlight">Els generals es van riure d'ella. El rei, el seu propi pare, va fer que la tanquessin a la seva cambra perquè 'no espantés el poble amb els seus disbarats'.</span>"</p>
+            <p>"Jo... jo la vaig sentir mentre feia guàrdia. Colpejava la porta. Cridava. Plorava. Deia els noms dels que moririen. <span class="highlight">Va dir el meu nom.</span>"</p>
+            <p>"Aquella nit, quan els grecs van sortir del cavall... vaig veure com el meu company de guàrdia moria al meu costat. Exactament com ella havia dit."</p>
+            <p>"La princesa tenia raó. <span class="highlight">Sempre havia tingut raó. I nosaltres mai no l'havíem escoltada.</span>"</p>
+            <div class="signature">— Soldat anònim</div>
+            <div class="date">Testimoni recollit al camp de presoners</div>
+        `
+    },
+
+    // ==================== CORRESPONDÈNCIA ====================
+    cor1: {
+        type: "Carta personal",
+        code: "C-001",
+        title: "Carta d'Esteno i Euríale (germanes gòrgones)",
+        icon: "💌",
+        content: `
+            <p><strong>De:</strong> Esteno i Euríale, les gòrgones immortals</p>
+            <p><strong>A:</strong> La nostra germana Medusa</p>
+            <p><strong>Nota:</strong> Carta trobada a la cova de les gòrgones, mai entregada</p>
+            <p>Germana nostra estimada,</p>
+            <p>Et busquem per tot arreu. On ets? Què t'han fet?</p>
+            <p>Hem sentit rumors terribles. Diuen que has canviat. Diuen que ets un monstre. Però nosaltres som les gòrgones, i no hem canviat mai. Per què tu sí?</p>
+            <blockquote>"<span class="highlight">Hem anat al temple d'Atena a preguntar. Ningú no ens ha volgut parlar. Però una sacerdotessa jove, d'amagat, ens ha dit: 'La vostra germana no va fer res. El déu del mar la va forçar. I la deessa la va castigar a ella.'</span>"</blockquote>
+            <p>Germana, si ens sents, vine amb nosaltres. No t'abandonarem mai. No ens importa com siguis ara. Ets la nostra sang.</p>
+            <p>Et trobarem. I si algú et fa mal, el destrossarem.</p>
+            <div class="signature">Sempre teves,<br>Esteno i Euríale</div>
+            <div class="date">Nota de l'arxiver: Les germanes van arribar massa tard. Medusa ja era morta.</div>
+        `
+    },
+    cor2: {
+        type: "Carta personal",
+        code: "C-002",
+        title: "Carta d'Ariadna a la seva germana Fedra",
+        icon: "💌",
+        content: `
+            <p><strong>De:</strong> Ariadna</p>
+            <p><strong>A:</strong> Fedra, la meva germana petita</p>
+            <p><strong>Nota:</strong> Carta mai enviada, trobada a Naxos</p>
+            <p>Estimada Fedra,</p>
+            <p>Avui he conegut un atenenc. Es diu Teseu. És diferent dels altres. Em mira als ulls quan parla, no al terra com fan tots davant una princesa.</p>
+            <p>Sé que vindrà a matar el nostre... al Minotaure. Sé que hauria d'odiar-lo per això. Però, Fedra, l'estimo.</p>
+            <blockquote>"<span class="highlight">Li donaré el fil que em va regalar la nostra mare. Amb ell podrà sortir del laberint. I després, fugirem junts. M'ha promès que em portarà a Atenes i em farà la seva reina.</span>"</blockquote>
+            <p>Sé que estic traint el pare. Sé que estic condemnant Astèrion. Però no puc evitar-ho.</p>
+            <p>Perdona'm, germana. T'escriuré des d'Atenes.</p>
+            <div class="signature">La teva germana que t'estima,<br>Ariadna</div>
+            <div class="date">Nota de l'arxiver: Ariadna mai va arribar a Atenes. Teseu la va abandonar a l'illa de Naxos mentre dormia. Aquesta carta es va trobar al seu costat.</div>
+        `
+    },
+    cor3: {
+        type: "Carta personal",
+        code: "C-003",
+        title: "Carta de Penèlope a Odisseu (mai enviada)",
+        icon: "💌",
+        content: `
+            <p><strong>De:</strong> Penèlope</p>
+            <p><strong>A:</strong> Odisseu, on siguis</p>
+            <p><strong>Nota:</strong> Carta trobada entre les pertinences de la reina. Mai enviada.</p>
+            <p>Estimat espòs,</p>
+            <p>Han passat deu anys. Deu anys des que vas marxar a Troia.</p>
+            <p>Diuen que la guerra ha acabat. Diuen que Troia ha caigut. Però tu no tornes.</p>
+            <p>Diuen que ets mort. Diuen que t'has perdut. Diuen que t'has oblidat de nosaltres.</p>
+            <p><span class="highlight">Jo no els crec. No puc creure'ls. Si et crec mort, m'hauré de casar amb un d'aquests... pretendents. I això no ho faré mai.</span></p>
+            <p>Telèmac pregunta per tu. Té deu anys i no et recorda. Com podria? Tenia mesos quan vas marxar.</p>
+            <blockquote>"A vegades em pregunto: tu penses en nosaltres? O estàs vivint aventures, coneixent deesses, oblidant que tens una esposa i un fill esperant?"</blockquote>
+            <p>Sé que no és just pensar això. Sé que deus estar lluitant per tornar. Però han passat deu anys, Odisseu. Deu anys sola.</p>
+            <p>T'esperaré. No sé fins quan, però t'esperaré.</p>
+            <p>Però quan tornis, si tornes, vull que sàpigues: jo també he lluitat. Cada dia. Sense espases, sense glòria, sense cançons. Però he lluitat.</p>
+            <div class="signature">Sempre teva,<br>Penèlope</div>
+            <div class="date">Any 10 de la teva absència.</div>
+        `
+    },
+    cor4: {
+        type: "Fragment de diari",
+        code: "C-004",
+        title: "Diari de Medusa (abans de la transformació)",
+        icon: "💌",
+        content: `
+            <p><strong>Propietària:</strong> Medusa de Líbia</p>
+            <p><strong>Període:</strong> Dies abans de la transformació</p>
+            <p><em>Dia 1</em></p>
+            <p>Avui he tornat al temple d'Atena. La deessa és el meu consol. Aquí em sento segura.</p>
+            <p><em>Dia 5</em></p>
+            <p>Les meves germanes diuen que sóc massa devota. Que hauria de buscar marit. Però jo he escollit servir Atena. No vull cap home. Vull la pau del temple.</p>
+            <p><em>Dia 12</em></p>
+            <p>Avui un home m'ha seguit pel mercat. M'ha dit que sóc bella. Li he dit que no m'interessava. S'ha enfadat. Per què s'enfaden quan dius que no?</p>
+            <p><em>Dia 15</em></p>
+            <p><span class="highlight">No puc escriure el que ha passat avui. No puc. Al temple. El déu del mar. Jo li he dit que no. Li he dit que era sagrat. No li ha importat.</span></p>
+            <p>He cridat Atena. Ha vingut. Però... m'ha mirat a mi. A mi. Com si jo tingués la culpa. Com si jo l'hagués cridat a ell.</p>
+            <p>I ara... ara sóc això. Monstro. Miro i mato. Ja no puc veure les meves germanes. Ja no puc veure ningú.</p>
+            <p>Per què a mi? Què vaig fer malament? Només volia servir la deessa. Només volia estar segura.</p>
+            <div class="date">Últim dia que va escriure.</div>
+        `
+    },
+    cor5: {
+        type: "Fragment de diari",
+        code: "C-005",
+        title: "Diari de Cassandra (fragments)",
+        icon: "💌",
+        content: `
+            <p><strong>Propietària:</strong> Cassandra de Troia</p>
+            <p><strong>Període:</strong> Durant la guerra</p>
+            <p><strong>Fragment 1 — Poc després de la maledicció</strong></p>
+            <blockquote>"Avui he vist com morirà el meu germà Hèctor. He vist la llança d'Aquil·les travessant-li el cos. He vist el seu cadàver arrossegat per la pols.<br><br>
+            He anat corrents a explicar-ho. M'han dit que calli. Que estic histèrica. Que Hèctor és el millor guerrer de Troia i que ningú no el pot vèncer.<br><br>
+            <span class="highlight">No saben que el veig mort cada vegada que tanco els ulls.</span>"</blockquote>
+            
+            <p><strong>Fragment 2 — Durant el setge</strong></p>
+            <blockquote>"Vuit anys de guerra. He predit cada batalla, cada mort, cada derrota. I cada vegada m'han dit el mateix: 'Calla, Cassandra. No facis por a la gent. Estàs malalta.'<br><br>
+            <span class="highlight">Potser el que em fa més mal no és que no em creguin. És que ja he deixat d'intentar-ho. Quin sentit té parlar si ningú no t'escolta?</span>"</blockquote>
+            
+            <p><strong>Fragment 3 — El dia del cavall</strong></p>
+            <blockquote>"Avui morirem tots. Ho veig tan clar com veig la llum del sol.<br><br>
+            El cavall de fusta és a la platja. A dins hi ha soldats grecs. Aquesta nit sortiran i obriran les portes. La ciutat cremarà. El meu pare morirà. Els meus germans, els pocs que queden, moriran. Jo seré arrossegada com a captiva.<br><br>
+            He anat al meu pare. M'ha fet fora.<br>
+            He anat als generals. M'han ignorat.<br>
+            He cridat a la plaça. La gent s'ha rigut de mi.<br><br>
+            <span class="highlight">Saber el futur i no poder canviar-lo és la pitjor tortura que existeix.</span><br><br>
+            Avui, per última vegada, tinc raó. I ningú no ho sabrà fins que sigui massa tard."</blockquote>
+            <div class="date">Fragments recuperats de les ruïnes de Troia</div>
+        `
+    },
+    cor6: {
+        type: "Carta personal",
+        code: "C-006",
+        title: "Carta de Cassandra al seu germà Hèctor",
+        icon: "💌",
+        content: `
+            <p><strong>De:</strong> Cassandra</p>
+            <p><strong>A:</strong> Hèctor, príncep de Troia</p>
+            <p><strong>Nota:</strong> Carta mai no entregada, trobada entre les pertinences de Cassandra</p>
+            <p>Germà estimat,</p>
+            <p>Sé que no llegiràs aquesta carta. Sé que si t'ho dic en persona, pensaràs que estic boja, com pensen tots. Però necessito escriure-ho, encara que sigui per a mi mateixa.</p>
+            <p><span class="highlight">Demà Aquil·les et matarà.</span></p>
+            <p>Ho veig cada nit en somnis. Ho veig cada dia amb els ulls oberts. La pols, el carro, el teu cos arrossegat tres vegades al voltant de les muralles mentre la nostra mare crida.</p>
+            <p>Sé que no em creuràs. Sé que sortiràs a lluitar perquè ets valent, perquè estimes Troia, perquè ets el millor de tots nosaltres.</p>
+            <p>Però jo sé la veritat: <span class="highlight">Troia no et mereix. T'enviem a morir per una guerra que va començar per culpa de Paris. Tu pagues els errors dels altres.</span></p>
+            <p>Si pogués, et lligaria a una columna perquè no sortissis. Però sé que no serviria de res. El futur no es pot canviar. Només es pot veure arribar.</p>
+            <p>Perdona'm per no poder salvar-te.</p>
+            <p>La teva germana que t'estima,</p>
+            <div class="signature">Cassandra</div>
+            <div class="date">Escrita la nit abans de la mort d'Hèctor</div>
+        `
+    },
+
+    // ==================== PROCLAMES ====================
+    pro1: {
+        type: "Proclama oficial",
+        code: "P-001",
+        title: "Discurs del rei Polidectes: Homenatge a Perseu",
+        icon: "🏆",
+        content: `
+            <p style="text-align: center;"><strong>PROCLAMA REIAL</strong></p>
+            <p style="text-align: center;">Per la gràcia dels déus, Polidectes, rei de Sèrifos</p>
+            <p>Ciutadans de Sèrifos!</p>
+            <p>Avui és un dia de glòria! El jove Perseu, fill del gran Zeus, ha tornat victoriós de la seva missió!</p>
+            <blockquote>"Ha portat el cap de la terrible Medusa, el monstre que aterria els mortals amb la seva mirada de pedra!"</blockquote>
+            <p>Perseu ha demostrat ser un veritable heroi. Ha volat amb sandàlies alades, s'ha fet invisible amb el casc d'Hades, i ha tallat el cap de la bèstia mentre dormia.</p>
+            <p><span class="highlight">Que aquest trofeu sigui símbol de la victòria del bé sobre el mal, de l'heroi sobre el monstre, de la humanitat sobre l'horror!</span></p>
+            <p>Declaro avui dia de festa! Que el vi corri i que les cançons celebrin la gesta del nostre heroi!</p>
+            <p>Glòria a Perseu! Glòria als déus!</p>
+            <div class="official-stamp">
+                <p class="stamp-text">👑 SEGELL REIAL DE SÈRIFOS 👑</p>
+            </div>
+            <div class="date"><em>Nota de l'arxiver: El rei Polidectes va ser convertit en pedra pel mateix cap de Medusa poc després d'aquest discurs, quan va intentar forçar la mare de Perseu a casar-s'hi.</em></div>
+        `
+    },
+    pro2: {
+        type: "Proclama oficial",
+        code: "P-002",
+        title: "Decret del rei Minos: Sobre la criatura",
+        icon: "🏆",
+        content: `
+            <p style="text-align: center;"><strong>DECRET REIAL</strong></p>
+            <p style="text-align: center;">Minos, per la gràcia dels déus, Rei de Creta</p>
+            <p>Escoltin tots els súbdits del regne:</p>
+            <p>Per la seguretat del regne i per la voluntat dels déus, decret el següent:</p>
+            <p><strong>Primer:</strong> La criatura nascuda de la reina serà confinada al laberint construït per Dèdal.</p>
+            <p><strong>Segon:</strong> <span class="highlight">El nom de la criatura no serà pronunciat. Serà coneguda com "el Minotaure" (toro de Minos).</span></p>
+            <p><strong>Tercer:</strong> Ningú podrà entrar al laberint ni comunicar-se amb la criatura.</p>
+            <p><strong>Quart:</strong> La criatura serà alimentada amb el tribut d'Atenes: set joves i set donzelles cada nou anys.</p>
+            <blockquote>"Que aquest decret sigui complert sense excepció. La criatura és un càstig diví i ha de ser tractada com a tal."</blockquote>
+            <div class="official-stamp">
+                <p class="stamp-text">👑 SEGELL REIAL DE CRETA 👑</p>
+            </div>
+            <div class="date"><em>Nota de l'arxiver: El decret no menciona en cap moment que la criatura és germanastre de les princeses Ariadna i Fedra, ni que la reina Pasífae, la seva mare, mai va poder visitar-lo.</em></div>
+        `
+    },
+    pro3: {
+        type: "Proclama oficial",
+        code: "P-003",
+        title: "Discurs del rei Egeu: Celebració de Teseu",
+        icon: "🏆",
+        content: `
+            <p style="text-align: center;"><strong>PROCLAMA DEL REI D'ATENES</strong></p>
+            <p style="text-align: center;">Egeu, Rei d'Atenes, als seus ciutadans</p>
+            <p>Atenesos! Avui és el dia més feliç de la meva vida!</p>
+            <p>El meu fill Teseu ha tornat del laberint de Creta! Ha matat el terrible Minotaure! Atenes és lliure!</p>
+            <blockquote>"Mai més haurem d'enviar els nostres fills i filles a morir a Creta! La maledicció ha acabat!"</blockquote>
+            <p>Teseu ha demostrat ser el més valent dels herois. Ha entrat sol al laberint, ha trobat la bèstia i l'ha derrotada en combat singular.</p>
+            <p>Declaro aquesta data dia de festa nacional per sempre més!</p>
+            <p><span class="highlight">Glòria al príncep Teseu! Glòria a Atenes!</span></p>
+            <div class="official-stamp">
+                <p class="stamp-text">🦉 SEGELL D'ATENES 🦉</p>
+            </div>
+            <div class="date"><em>Nota de l'arxiver: Aquest discurs va ser pronunciat hores abans que el rei Egeu es llancés al mar i morís. Teseu havia oblidat canviar les veles negres per blanques, i el seu pare va creure que havia mort.</em></div>
+            <div class="date"><em>Segona nota: El discurs no menciona Ariadna ni el seu paper en l'èxit de la missió.</em></div>
+        `
+    },
+    pro4: {
+        type: "Proclama oficial",
+        code: "P-004",
+        title: "Edicte dels pretendents d'Ítaca",
+        icon: "🏆",
+        content: `
+            <p style="text-align: center;"><strong>EDICTE</strong></p>
+            <p style="text-align: center;">Els nobles pretendents d'Ítaca, reunits en assemblea</p>
+            <p>A la reina Penèlope i al poble d'Ítaca:</p>
+            <p>Considerant que:</p>
+            <p>• El rei Odisseu porta absent vint anys</p>
+            <p>• És evident que ha mort o no tornarà</p>
+            <p>• El regne necessita un rei</p>
+            <p>• Una dona sola no pot governar</p>
+            <p>Declarem el següent:</p>
+            <blockquote>"La reina Penèlope ha de triar nou espòs d'entre els nobles aquí reunits. El tron no pot restar buit més temps. És antinatural que una dona governi sola."</blockquote>
+            <p><span class="highlight">Si la reina no tria espòs en un termini raonable, els pretendents prendran mesures per assegurar el bon govern del regne.</span></p>
+            <div class="official-stamp">
+                <p class="stamp-text">📜 SIGNAT PELS 108 PRETENDENTS 📜</p>
+            </div>
+            <div class="date"><em>Nota de l'arxiver: Tots els signants d'aquest edicte van ser morts per Odisseu al seu retorn. La reina que deien que "no podia governar" havia mantingut el regne pròsper durant vint anys mentre ells malgastaven els recursos del palau.</em></div>
+        `
+    },
+    pro5: {
+        type: "Decret reial",
+        code: "P-005",
+        title: "Decret del rei Príam sobre la princesa Cassandra",
+        icon: "🏆",
+        content: `
+            <p style="text-align: center;"><strong>DECRET REIAL</strong></p>
+            <p style="text-align: center;">Signat per: Príam, rei de Troia</p>
+            <p style="text-align: center;">Any: Tercer any del setge</p>
+            <p><strong>CONSIDERANT</strong> que la princesa Cassandra, filla nostra estimada, pateix d'una afecció de la ment que la porta a fer prediccions alarmistes i falses;</p>
+            <p><strong>CONSIDERANT</strong> que les seves paraules causen por i desànim entre el poble i l'exèrcit;</p>
+            <p><strong>CONSIDERANT</strong> que la seva insistència en prediccions de mort i destrucció és perjudicial per a la moral de la ciutat;</p>
+            <p><strong>DECRETEM:</strong></p>
+            <p>1. <span class="highlight">La princesa Cassandra no podrà parlar en públic sense permís reial.</span></p>
+            <p>2. Les seves "profecies" no seran recollides per cap escriba oficial.</p>
+            <p>3. <span class="highlight">Qualsevol persona que escampi les seves prediccions serà castigada.</span></p>
+            <p>4. La princesa restarà confinada als seus aposentos durant els actes públics.</p>
+            <p><strong>NOTA OFICIAL:</strong> "La princesa és estimada per la seva família, però la seva malaltia li fa dir coses que no són certes. Preguem al poble que ignori les seves paraules per al bé de tots."</p>
+            <div class="official-stamp">
+                <p class="stamp-text">👑 SEGELL REIAL DE TROIA 👑</p>
+            </div>
+            <div class="date"><em>Nota de l'arxiver (afegida després de la caiguda): Totes les prediccions de la princesa Cassandra es van complir.</em></div>
+        `
+    }
+};
+
+// FUNCIONS
+function openDrawer(id) {
+    // Tancar tots els drawers
+    document.querySelectorAll('.documents-area').forEach(area => {
+        area.classList.remove('active');
+    });
+    document.querySelectorAll('.drawer').forEach(drawer => {
+        drawer.classList.remove('active');
+    });
+    
+    // Obrir el seleccionat
+    document.getElementById(id).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+
+function openDoc(id) {
+    const doc = documents[id];
+    if (!doc) return;
+    
+    const modal = document.getElementById('modal');
+    const inner = document.getElementById('modal-inner');
+    
+    inner.innerHTML = `
+        <div class="modal-header">
+            <div class="seal-small">${doc.icon}</div>
+            <div class="doc-type-full">${doc.type}</div>
+            <h2>${doc.title}</h2>
+            <div class="doc-ref">Referència: ${doc.code}</div>
+        </div>
+        <div class="modal-body">
+            ${doc.content}
+        </div>
+    `;
+    
+    modal.classList.add('active');
+}
+
+function closeModal(event) {
+    if (event && event.target !== event.currentTarget) return;
+    document.getElementById('modal').classList.remove('active');
+}
+
+// Tancar modal amb Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeModal();
+    }
+});
+</script>
+
+</body>
+</html>
